@@ -2,13 +2,22 @@
 # wechat_jump_ai_kotlin
 ---
 
-微信小游戏 跳一跳 kotlin AI 自动寻找开始跳的坐标，目标坐标.
+微信小游戏 跳一跳 kotlin AI 自动寻找开始跳的坐标，目标坐标，使用 ADB 命令完成自动跳转.
 
 # 成果
 ---
 
 ![](https://raw.githubusercontent.com/uglyer/wechat_jump_ai_kotlin/master/pic/show.jpg?)
 
+# 使用方法
+---
+
+1. 在电脑上下载好adb
+1. 打开安卓手机的usb调试模式并授权连接的电脑
+1. 打开微信跳一跳，并点击开始
+1. 在`Constans.kt`中配置好adb路径与截图路径，定时器时间、移动系数 可以根据实际情况适当调整.
+1. 运行 Main.kt 中的主函数
+1. 会自动识别当前坐标和目标点，完成跳跃
 
 # 跳一跳
 ---
@@ -40,15 +49,6 @@ $ adb pull /sdcard/screen.png # 下载截屏文件到本地
 
 <https://github.com/uglyer/wechat_jump_ai_kotlin>
 
-
-# 使用方法
----
-
-1. 在电脑上下载好adb
-1. 打开安卓手机的usb调试模式并授权连接的电脑
-1. 打开微信跳一跳，并点击开始
-1. 在`Constans.kt`中配置好adb路径与截图路径，运行
-1. 会自动识别完成跳跃
 
 # 参考
 ---
