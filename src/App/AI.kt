@@ -1,6 +1,5 @@
 package App
 
-import com.iosdevlog.jumpjump.*
 import java.awt.Color
 import java.awt.Point
 import java.awt.image.BufferedImage
@@ -70,7 +69,7 @@ fun runAI(bufferedImage: BufferedImage) {
                         startH = h
                         findStart = false
                         //目标区域比起跳点y轴小的情况,需要重新查找
-                        if (endW in startW - 20..startW + 20) {
+                        if (endW in startW - 30..startW + 40) {
                             refind = h + 20
                         }
                     }
@@ -92,7 +91,7 @@ fun runAI(bufferedImage: BufferedImage) {
                     if (count == 40) {
                         endW = w
                         endH = h + 10
-                        if (endW in startW - 20..startW + 40) {
+                        if (endW in startW - 30..startW + 40) {
                             count = 0
                         }
                     }
