@@ -69,7 +69,7 @@ fun runAI(bufferedImage: BufferedImage) {
                         startH = h
                         findStart = false
                         //目标区域比起跳点y轴小的情况,需要重新查找
-                        if (endW in startW - 30..startW + 40) {
+                        if (endW in startW - 50..startW + 60) {
                             refind = h + 20
                         }
                     }
@@ -91,7 +91,7 @@ fun runAI(bufferedImage: BufferedImage) {
                     if (count == 40) {
                         endW = w
                         endH = h + 10
-                        if (endW in startW - 30..startW + 40) {
+                        if (endW in startW - 50..startW + 60) {
                             count = 0
                         }
                     }
