@@ -18,6 +18,8 @@ import javax.imageio.ImageIO
 fun notBg(color: Color, bgColor: Color, bgColorEnd: Color): Boolean {
     if (color.red in 251..255 && color.green in 70..76 && color.blue in 82..85) return true //红包盒子
     if (color.red in 179..190 && color.green in 235..245 && color.blue in 65..70) return true //绿色盒子
+    if (color.red in 99..101 && color.green in 147..150 && color.blue in 100..109) return true //深绿色盒子
+    if (color.red in 112..114 && color.green in 112..114 && color.blue in 112..114) return true //灰色圆桌
     if (color.red in 245..255 && color.green in 245..255 && color.blue in 245..255) return true //白色盒子
     if (color.red in 254..255 && color.green in 170..175 && color.blue in 175..180) return true //粉色盒子
     if (color.red in 134..138 && color.green in 120..125 && color.blue in 225..230) return true //紫色盒子
