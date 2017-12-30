@@ -1,4 +1,4 @@
-package com.iosdevlog.jumpjump
+package App
 
 import javax.swing.JFrame
 import javax.swing.WindowConstants

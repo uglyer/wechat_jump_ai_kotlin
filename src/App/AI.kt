@@ -58,9 +58,9 @@ fun runAI(bufferedImage: BufferedImage) {
             val rgbValue = bufferedImage.getRGB(w, h)
             val color = Color(rgbValue)
             if (notBg(color, bgColor, bgColorEnd)) {
-                if (count == 20) {
+                if (count == 40) {
                     endW = w
-                    endH = h + 30
+                    endH = h + 10
                     findStart = true
                 }
                 if (findStart) {
@@ -89,9 +89,9 @@ fun runAI(bufferedImage: BufferedImage) {
                 val rgbValue = bufferedImage.getRGB(w, h)
                 val color = Color(rgbValue)
                 if (notBg(color, bgColor, bgColorEnd)) {
-                    if (count == 20) {
+                    if (count == 40) {
                         endW = w
-                        endH = h + 30
+                        endH = h + 10
                         if (endW in startW - 20..startW + 40) {
                             count = 0
                         }

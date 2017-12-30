@@ -1,4 +1,4 @@
-package com.iosdevlog.jumpjump
+package App
 
 /**
  * adb所在位置

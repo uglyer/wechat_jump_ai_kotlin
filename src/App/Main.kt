@@ -1,4 +1,4 @@
-package com.iosdevlog.jumpjump
+package App
 
 import App.runAI
 import java.awt.Color
