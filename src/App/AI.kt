@@ -1,9 +1,6 @@
 package App
 
-import com.iosdevlog.jumpjump.SCREENSHOT_LOCATION
-import com.iosdevlog.jumpjump.SCREENSHOT_LOCATION_OUT
-import com.iosdevlog.jumpjump.call
-import com.iosdevlog.jumpjump.distance
+import com.iosdevlog.jumpjump.*
 import java.awt.Color
 import java.awt.Point
 import java.awt.image.BufferedImage
@@ -19,7 +16,8 @@ fun notBg(color: Color, bgColor: Color, bgColorEnd: Color): Boolean {
     if (color.red in 251..255 && color.green in 70..76 && color.blue in 82..85) return true //红包盒子
     if (color.red in 179..190 && color.green in 235..245 && color.blue in 65..70) return true //绿色盒子
     if (color.red in 97..101 && color.green in 145..150 && color.blue in 100..109) return true //深绿色盒子
-    if (color.red in 110..116 && color.green in 110..116 && color.blue in 110..116) return true //灰色圆桌
+    if (color.red in 105..119 && color.green in 105..119 && color.blue in 105..119) return true //灰色圆桌
+    if (color.red in 240..244 && color.green in 240..244 && color.blue in 240..244) return true //灰色书本
     if (color.red in 245..255 && color.green in 245..255 && color.blue in 245..255) return true //白色盒子
     if (color.red in 254..255 && color.green in 170..175 && color.blue in 175..180) return true //粉色盒子
     if (color.red in 134..138 && color.green in 120..125 && color.blue in 225..230) return true //紫色盒子
@@ -41,7 +39,9 @@ fun isStart(color: Color): Boolean {
     return (color.red in 52..60) && (color.green in 49..55) && (color.blue in 85..92)
 }
 
+var index = 0
 fun runAI(bufferedImage: BufferedImage) {
+    ImageIO.write(bufferedImage, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_$index.png"))
     println("w:${bufferedImage.width} h:${bufferedImage.height}")
     var startW = 0
     var startH = 0
@@ -57,7 +57,7 @@ fun runAI(bufferedImage: BufferedImage) {
             val rgbValue = bufferedImage.getRGB(w, h)
             val color = Color(rgbValue)
             if (notBg(color, bgColor, bgColorEnd)) {
-                if (count == 1) {
+                if (count == 20) {
                     endW = w
                     endH = h + 30
                     findStart = true
@@ -87,9 +87,11 @@ fun runAI(bufferedImage: BufferedImage) {
         }
     }
     ImageIO.write(bufferedImage, "png", File(SCREENSHOT_LOCATION_OUT))
+    ImageIO.write(bufferedImage, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_${index}_2.png"))
     val distance = distance(Point(startW, startH), Point(endW, endH))
     println("distance:" + distance)
     call(distance * 2.2)//magic number
+    index++
 }
 
 fun main(args: Array<String>) {

@@ -11,3 +11,4 @@ val ADB_PATH = "D:\\soft\\adb\\adb.exe"
  */
 val SCREENSHOT_LOCATION = "D:\\soft\\adb\\s.png"
 val SCREENSHOT_LOCATION_OUT = "D:\\soft\\adb\\s_out.png"
+val SCREENSHOT_LOCATION_OUT_DIR = "D:\\soft\\adb\\out\\"
