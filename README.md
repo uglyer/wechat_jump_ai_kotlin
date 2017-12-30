@@ -59,4 +59,4 @@ $ adb pull /sdcard/screen.png # 下载截屏文件到本地
 # License
 ---
 
-JumpJump is released under the GPL V3 license. See LICENSE for details.
+wechat_jump_ai_kotlin is released under the GPL V3 license. See LICENSE for details.
