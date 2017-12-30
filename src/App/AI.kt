@@ -86,7 +86,7 @@ fun runAI(bufferedImage: BufferedImage): BufferedImage {
         val mmr = Core.minMaxLoc(outputImage)
         val matchLoc = mmr.maxLoc
         val toEnd = Imgcodecs.imread(SCREENSHOT_LOCATION + "_to_end.jpg")
-        val new_img = doCanny(source)
+        val new_img = doCanny(toEnd)
         Imgcodecs.imwrite(SCREENSHOT_LOCATION + "_end.jpg", new_img)//写图像
         //Draw rectangle on result image
         Imgproc.rectangle(source, matchLoc, org.opencv.core.Point(matchLoc.x + template.cols(),
