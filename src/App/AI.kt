@@ -40,8 +40,12 @@ fun isStart(color: Color): Boolean {
 
 var index = 0
 fun runAI(bufferedImage: BufferedImage) {
-    ImageIO.write(bufferedImage, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_$index.png"))
-    println("w:${bufferedImage.width} h:${bufferedImage.height}")
+    if (IS_SAVE_HISTORY) {
+        val outDir = File(SCREENSHOT_LOCATION_OUT_DIR)
+        if (!outDir.exists()) outDir.mkdirs()
+        ImageIO.write(bufferedImage, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_$index.png"))
+    }
+//    println("w:${bufferedImage.width} h:${bufferedImage.height}")
     var startW = 0
     var startH = 0
     var endW = 0
@@ -114,10 +118,11 @@ fun runAI(bufferedImage: BufferedImage) {
         }
     }
     ImageIO.write(bufferedImage, "png", File(SCREENSHOT_LOCATION_OUT))
-    ImageIO.write(bufferedImage, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_${index}_2.png"))
+    if (IS_SAVE_HISTORY)
+        ImageIO.write(bufferedImage, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_${index}_2.png"))
     val distance = distance(Point(startW, startH), Point(endW, endH))
     println("distance:" + distance)
-    call(distance * 2.2)//magic number
+    call(distance * MAGIC_NUMBER)//magic number
     index++
 }
 

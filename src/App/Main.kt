@@ -53,7 +53,7 @@ fun main(args: Array<String>) {
             System.gc()
         }
     }
-    timer.schedule(timerTask, 5000, 5000)
+    timer.schedule(timerTask, TIMER, TIMER)
 
     jPanel.addMouseListener(object : MouseListener {
         override fun mouseReleased(e: MouseEvent?) {
@@ -80,7 +80,7 @@ fun main(args: Array<String>) {
                     val distance = distance(firstPoint!!, secondPoint!!)
                     println("distance:" + distance)
                     isFirst = true
-                    call(distance * 2.2)//magic number
+                    call(distance * MAGIC_NUMBER)//magic number
                     try {
                         Thread.sleep(2500)// wait for screencap
                     } catch (e1: InterruptedException) {
