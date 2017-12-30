@@ -71,7 +71,7 @@ fun runAI(bufferedImage: BufferedImage): BufferedImage {
                 val rgbValue = bufferedImage.getRGB(w, h)
                 val color = Color(rgbValue)
                 if (!notBg(color, bgColor, bgColorEnd)) {
-                    bufferedImage.setRGB(w, h, 0)
+                    bufferedImage.setRGB(w, h, Color(0,0,255).rgb)
                 }
             }
         }
