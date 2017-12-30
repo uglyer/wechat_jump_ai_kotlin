@@ -1,6 +1,7 @@
 package App
 
 import App.runAI
+import org.opencv.core.Core
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Point
@@ -14,6 +15,7 @@ import javax.imageio.ImageIO
 import javax.swing.JPanel
 
 fun main(args: Array<String>) {
+    if (USE_OPENCV) System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
     val jumpjump = JumpJump()
     var isFirst = true
     var firstPoint: Point? = null
@@ -29,8 +31,7 @@ fun main(args: Array<String>) {
                 gTemp.drawImage(bufferedImage, 0, 0, 675, 1200, null)
                 gTemp.dispose()
                 bufferedImage = newImage
-                runAI(bufferedImage)
-                g.drawImage(bufferedImage, 0, 0, null)
+                g.drawImage(runAI(bufferedImage), 0, 0, null)
             } catch (e: IOException) {
                 e.printStackTrace()
             }

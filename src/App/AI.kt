@@ -1,5 +1,11 @@
 package App
 
+import org.opencv.core.Core
+import org.opencv.core.Mat
+import org.opencv.core.Scalar
+import org.opencv.core.Size
+import org.opencv.imgcodecs.Imgcodecs
+import org.opencv.imgproc.Imgproc
 import java.awt.Color
 import java.awt.Point
 import java.awt.image.BufferedImage
@@ -39,7 +45,7 @@ fun isStart(color: Color): Boolean {
 }
 
 var index = 0
-fun runAI(bufferedImage: BufferedImage) {
+fun runAI(bufferedImage: BufferedImage): BufferedImage {
     if (IS_SAVE_HISTORY) {
         val outDir = File(SCREENSHOT_LOCATION_OUT_DIR)
         if (!outDir.exists()) outDir.mkdirs()
@@ -56,6 +62,80 @@ fun runAI(bufferedImage: BufferedImage) {
     val bgColor = Color(bufferedImage.getRGB(0, 0))
     val bgColorEnd = Color(bufferedImage.getRGB(0, bufferedImage.width - 100))
     println("bgColor R:${bgColor.red} G:${bgColor.green} B:${bgColor.blue}")
+
+    if (USE_OPENCV) {
+        ImageIO.write(bufferedImage, "png", File(SCREENSHOT_LOCATION))
+        //去杂色
+        for (h in 200 until bufferedImage.height) {
+            for (w in 0 until bufferedImage.width) {
+                val rgbValue = bufferedImage.getRGB(w, h)
+                val color = Color(rgbValue)
+                if (!notBg(color, bgColor, bgColorEnd)) {
+                    bufferedImage.setRGB(w, h, 0)
+                }
+            }
+        }
+        ImageIO.write(bufferedImage, "png", File(SCREENSHOT_LOCATION + "_to_end.jpg"))
+        val source = Imgcodecs.imread(SCREENSHOT_LOCATION)//读图像
+        val template = Imgcodecs.imread(START_LOCATION)
+
+        val outputImage = Mat()
+        val machMethod = Imgproc.TM_CCOEFF
+        //Template matching method
+        Imgproc.matchTemplate(source, template, outputImage, machMethod)
+        val mmr = Core.minMaxLoc(outputImage)
+        val matchLoc = mmr.maxLoc
+        val toEnd = Imgcodecs.imread(SCREENSHOT_LOCATION + "_to_end.jpg")
+        val new_img = doCanny(source)
+        Imgcodecs.imwrite(SCREENSHOT_LOCATION + "_end.jpg", new_img)//写图像
+        //Draw rectangle on result image
+        Imgproc.rectangle(source, matchLoc, org.opencv.core.Point(matchLoc.x + template.cols(),
+                matchLoc.y + template.rows()), Scalar(255.0, 0.0, 0.0))
+        Imgcodecs.imwrite(SCREENSHOT_LOCATION + "_start.jpg", source)
+        val startLeftTop = Point(matchLoc.x.toInt(), matchLoc.y.toInt())
+        val startRightBottom = Point((matchLoc.x + template.cols()).toInt(), (matchLoc.y + template.rows()).toInt())
+        val bufferedImageEnd = ImageIO.read(File(SCREENSHOT_LOCATION + "_end.jpg"))
+        for (h in 200 until bufferedImageEnd.height) {
+            for (w in 20 until bufferedImageEnd.width) {
+                val rgbValue = bufferedImageEnd.getRGB(w, h)
+                val color = Color(rgbValue)
+                if ((color.red > 5 && color.green > 5 && color.blue > 5)
+                        && (w > startRightBottom.x
+//                        && h > startRightBottom.y
+                        || w < startLeftTop.x)
+//                        && h < startLeftTop.y
+                        && endH == 0) {
+                    endW = w
+                    endH = h + 10
+                    println("color.red:${color.red} G:${color.green} B:${color.blue} a:${color.alpha}")
+                }
+            }
+        }
+        startW = startLeftTop.x + 32
+        startH = startRightBottom.y - 20
+        val buffedImageResult = ImageIO.read(File(SCREENSHOT_LOCATION + "_start.jpg"))
+        for (i in 0 until 10) {
+            for (j in 0 until 10) {
+                buffedImageResult.setRGB(endW + i, endH + j, 0)
+            }
+        }
+        for (i in 0 until 10) {
+            for (j in 0 until 10) {
+                buffedImageResult.setRGB(startW + i, startH + j, -555)
+            }
+        }
+        println("Complated.")
+        ImageIO.write(buffedImageResult, "png", File(SCREENSHOT_LOCATION_OUT))
+        if (IS_SAVE_HISTORY)
+            ImageIO.write(buffedImageResult, "png", File("$SCREENSHOT_LOCATION_OUT_DIR\\_${index}_2.png"))
+        val distance = distance(Point(startW, startH), Point(endW, endH))
+        println("distance:" + distance)
+        call(distance * MAGIC_NUMBER)//magic number
+        index++
+        return buffedImageResult
+//    getFace(img)
+    }
+
     for (h in 200 until bufferedImage.height) {
         for (w in 0 until bufferedImage.width) {
             val rgbValue = bufferedImage.getRGB(w, h)
@@ -85,7 +165,7 @@ fun runAI(bufferedImage: BufferedImage) {
         }
     }
 
-    if (refind > 0) {
+    if (refind > 0 && !USE_OPENCV) {
         count = 0
         for (h in 200 until bufferedImage.height) {
             for (w in 0 until bufferedImage.width) {
@@ -124,9 +204,28 @@ fun runAI(bufferedImage: BufferedImage) {
     println("distance:" + distance)
     call(distance * MAGIC_NUMBER)//magic number
     index++
+    return bufferedImage
+}
+
+fun doCanny(frame: Mat): Mat {
+    // init
+    val grayImage = Mat()
+    val detectedEdges = Mat()
+    val threshold = 10.0
+    // convert to grayscale
+    Imgproc.cvtColor(frame, grayImage, Imgproc.COLOR_BGR2GRAY)
+    // reduce noise with a 3x3 kernel
+    Imgproc.blur(grayImage, detectedEdges, Size(3.0, 3.0))
+    // canny detector, with ratio of lower:upper threshold of 3:1
+    Imgproc.Canny(detectedEdges, detectedEdges, threshold, threshold * 3)
+    // using Canny's output as a mask, display the result
+    val dest = Mat()
+    frame.copyTo(dest, detectedEdges)
+    return dest
 }
 
 fun main(args: Array<String>) {
+    if (USE_OPENCV) System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
     val bufferedImage = ImageIO.read(File(SCREENSHOT_LOCATION))
     val newImage = BufferedImage(675, 1200, bufferedImage.getType())
     val gTemp = newImage.graphics

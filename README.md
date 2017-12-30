@@ -16,7 +16,7 @@
 1. 打开安卓手机的usb调试模式并授权连接的电脑
 1. 打开微信跳一跳，并点击开始
 1. 在`Constans.kt`中配置好adb路径与截图路径，定时器时间、移动系数 可以根据实际情况适当调整.
-1. 运行 Main.kt 中的主函数
+1. 运行 Main.kt 中的主函数(启用 OpenCv 需要添加VM参数 -Djava.library.path=F:\code\gua\wechat_jump_ai_kotlin\lib\x64)
 1. 会自动识别当前坐标和目标点，完成跳跃
 
 # 跳一跳
