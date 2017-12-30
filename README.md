@@ -7,7 +7,7 @@
 # 成果
 ---
 
-![成果](./pic/show.jpg)
+![](https://raw.githubusercontent.com/uglyer/wechat_jump_ai_kotlin/master/pic/show.jpg?)
 
 
 # 跳一跳
