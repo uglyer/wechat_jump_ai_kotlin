@@ -20,7 +20,7 @@
 # 思路
 ---
 
-用usb调试安卓手机，用adb截图并用鼠标测量距离，然后计算按压时间后模拟按压。
+用usb调试安卓手机，用adb截图并用图像识别自动找起始点和目标点，测量距离，然后计算按压时间后模拟按压。
 
 ```bash
 $ adb shell input swipe <x1> <y1> <x2> <y2> [duration(ms)] (Default: touchscreen) # 模拟长按
