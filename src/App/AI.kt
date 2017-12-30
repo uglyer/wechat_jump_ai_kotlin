@@ -48,6 +48,7 @@ fun runAI(bufferedImage: BufferedImage) {
     var endW = 0
     var endH = 0
     var count = 0
+    var refind = 0
     var findStart = true
     val bgColor = Color(bufferedImage.getRGB(0, 0))
     val bgColorEnd = Color(bufferedImage.getRGB(0, bufferedImage.width - 100))
@@ -68,6 +69,10 @@ fun runAI(bufferedImage: BufferedImage) {
                         startW = w
                         startH = h
                         findStart = false
+                        //目标区域比起跳点y轴小的情况,需要重新查找
+                        if (endW in startW - 20..startW + 20) {
+                            refind = h + 20
+                        }
                     }
                 }
                 count++
@@ -76,6 +81,29 @@ fun runAI(bufferedImage: BufferedImage) {
 
         }
     }
+
+    if (refind > 0) {
+        count = 0
+        for (h in 200 until bufferedImage.height) {
+            for (w in 0 until bufferedImage.width) {
+                val rgbValue = bufferedImage.getRGB(w, h)
+                val color = Color(rgbValue)
+                if (notBg(color, bgColor, bgColorEnd)) {
+                    if (count == 20) {
+                        endW = w
+                        endH = h + 30
+                        if (endW in startW - 20..startW + 40) {
+                            count = 0
+                        }
+                    }
+                    count++
+                }
+
+            }
+        }
+    }
+
+
     for (i in 0 until 20) {
         for (j in 0 until 20) {
             bufferedImage.setRGB(endW + i, endH + j, 0)
