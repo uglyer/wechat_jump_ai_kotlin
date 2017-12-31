@@ -9,6 +9,10 @@
 
 ![](https://raw.githubusercontent.com/uglyer/wechat_jump_ai_kotlin/master/pic/show.jpg?)
 
+# 特别说明
+---
+现在这个游戏似乎开始检测脚本了，我刷的分被还原到上次手撸的分数了。
+
 # 使用方法
 ---
 
