@@ -1,11 +1,17 @@
 package App
 
 import java.io.IOException
+import java.util.*
 
+val r = Random()
 
 fun call(timeMilli: Double) {
     try {
-        Runtime.getRuntime().exec(ADB_PATH + " shell input touchscreen swipe 170 187 170 187 " + timeMilli.toInt())
+        val locationX = r.nextInt(720)
+        val locationY = r.nextInt(720)
+        val addX = r.nextInt(10)
+        val addY = r.nextInt(10)
+        Runtime.getRuntime().exec(ADB_PATH + " shell input touchscreen swipe ${locationX} ${locationY} ${locationX + addX} ${locationY + addY} ${timeMilli.toInt()}")
     } catch (e: IOException) {
         e.printStackTrace()
     }
