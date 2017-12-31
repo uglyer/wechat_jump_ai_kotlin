@@ -103,7 +103,7 @@ fun runAI(bufferedImage: BufferedImage): BufferedImage {
     val buffedImageResult = ImageIO.read(File(SCREENSHOT_LOCATION + "_start.jpg"))
     buffedImageResult.paintPoint(endW, endH, Color(0, 255, 0))
 
-    bufferedImageEnd.findByCondition(inW = endW, startH = endH + 5,
+    bufferedImageEnd.findByCondition(inW = endW, startH = endH + 10,
             condition = { w, h, color -> color.notBlack() }) { w, h, color ->
         endH2 = h
         println("endH2:${endH2}")
