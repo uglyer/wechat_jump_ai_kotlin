@@ -27,7 +27,7 @@ val USE_OPENCV = true
 /**
  * 定时器时间,可以根据手机响应速度适当调整，单位毫秒
  */
-val TIMER: Long = 5000
+val TIMER: Long = 7000
 
 /**
  * 移动系数，如果跳的位置不准确，可以适当修改系数，
